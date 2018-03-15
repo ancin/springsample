@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--申明本应用名称，用于区分应用-->
+    <dubbo:application name="spring-dubboxexmaple"/>
+    <!--注册zookeeper地址, 如果zookeeper 安装到多个服务器，注册地址用逗号分隔。如：“127.0.0.1,127.0.0.1”-->
+    <dubbo:registry  address="zookeeper://10.40.10.72:30182"/>
+
+    <!--注册dubbo-->
+    <dubbo:protocol name="dubbo" port="20881"/>
+
+    <!--和本地bean注册已有-->
+    <bean id="demoServiceImpl" class="com.springapp.mvc.dubbox.service.DemoServiceImpl" />
+    <bean id="orderServiceImpl" class="com.springapp.mvc.dubbox.service.OrderServiceImpl" />
+
+    <dubbo:annotation package="*" />
+    <!--用dubbo 注册服务接口-->
+    <dubbo:service interface="com.springapp.mvc.dubbox.service.DemoService" ref="demoServiceImpl" protocol="dubbo"/>
+
+    <dubbo:service interface="com.springapp.mvc.dubbox.service.OrderService" ref="orderServiceImpl" protocol="dubbo"/>
+
+</beans>

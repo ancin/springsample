@@ -1,0 +1,141 @@
+<configuration>
+
+    <property resource="logback.properties"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %.-1level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="PRODUCT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/product.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${logDir}/backup/product-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %.-1level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="APP_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/app-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${logDir}/backup/app-error-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %.-1level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="USER_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/user-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${logDir}/backup/user-error-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %.-1level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="SLOW_LOGIC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/slow-logic.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${logDir}/backup/slow-logic-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %.-1level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="SLOW_QUERY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/slow-query.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${logDir}/backup/slow-query-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>60</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{MM-dd HH:mm:ss} [%thread] %.-1level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <root level="${ROOT_LEVEL}">
+        <appender-ref ref="${PRODUCT}" />
+    </root>
+
+
+    <logger name="spring.trace" level="${APP_LEVEL}" additivity="false">
+        <appender-ref ref="${PRODUCT}" />
+    </logger>
+    <!--  TRACE -->
+    <logger name="TRACE" level="${TRACE_LEVEL}" additivity="false">
+        <appender-ref ref="${PRODUCT}" />
+    </logger>
+    <!-- LOG4JDBC SQL QUERY -->
+    <logger name="jdbc.sqlonly" level="${QUERY_LEVEL}" additivity="false">
+        <appender-ref ref="${PRODUCT}"/>
+    </logger>
+
+    <logger name="APP_ERROR" level="info" additivity="false">
+        <appender-ref ref="${APP_ERROR}" />
+    </logger>
+    <logger name="USER_ERROR" level="info" additivity="false">
+        <appender-ref ref="${USER_ERROR}" />
+    </logger>
+    <logger name="SLOW_LOGIC" level="info" additivity="false">
+        <appender-ref ref="${SLOW_LOGIC}" />
+    </logger>
+    <!-- LOG4JDBC SQL 로그 warn:500ms, error:1000ms -->
+    <logger name="jdbc.sqltiming" level="warn" additivity="false">
+        <appender-ref ref="${SLOW_QUERY}" />
+    </logger>
+
+    <!-- LOG4JDBC -->
+    <logger name="jdbc.audit" level="OFF" additivity="false">
+        <appender-ref ref="${PRODUCT}" />
+    </logger>
+    <logger name="jdbc.resultset" level="OFF" additivity="false">
+        <appender-ref ref="${PRODUCT}"/>
+    </logger>
+    <logger name="jdbc.resultsettable" level="OFF" additivity="false">
+        <appender-ref ref="${PRODUCT}"/>
+    </logger>
+    <logger name="jdbc.connection" level="info" additivity="false">
+        <appender-ref ref="${PRODUCT}"/>
+    </logger>
+
+    <!-- HIBERNATE SQL -->
+    <logger name="org.hibernate.SQL" level="OFF" additivity="false">
+        <appender-ref ref="${PRODUCT}" />
+    </logger>
+</configuration>
