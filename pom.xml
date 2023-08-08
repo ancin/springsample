@@ -9,7 +9,7 @@
     <url>http://maven.apache.org</url>
     <properties>
         <spring.version>4.3.6.RELEASE</spring.version>
-        <netty_version>3.2.5.Final</netty_version>
+        <netty_version>4.0.0</netty_version>
         <zookeeper_version>3.3.3</zookeeper_version>
         <zkclient_version>0.1</zkclient_version>
         <slf4j_version>1.7.7</slf4j_version>
